@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wild C4rd Members</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Michroma&family=Orbitron:wght@400;700;900&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-color: #030303;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(30,30,30,0.3) 0%, transparent 60%),
+        radial-gradient(circle at 90% 80%, rgba(40,40,40,0.3) 0%, transparent 60%);
+    color: #e6e6e6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(rgba(200,200,200,0.05) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(200,200,200,0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center;
+    z-index: -2;
+    opacity: 0.3;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: -50px;
+    background-image: 
+        radial-gradient(circle, rgba(100,100,100,0.1) 0%, transparent 60%),
+        radial-gradient(circle at 20% 70%, rgba(180,180,180,0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(220,220,220,0.08) 0%, transparent 40%);
+    z-index: -1;
+    animation: bgMovement 30s linear infinite;
+    filter: blur(10px);
+}
+
+@keyframes bgMovement {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-30px, 30px); }
+    50% { transform: translate(0px, 60px) scale(1.05); }
+    75% { transform: translate(30px, 30px); }
+    100% { transform: translate(0, 0); }
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.title-wrapper {
+    position: relative;
+    padding: 30px 40px; /* Padding diperbesar agar tidak terlalu mepet */
+    text-align: center;
+    z-index: 2;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    
+    /* Menerapkan gaya background yang sama dengan kartu karakter */
+    background: rgba(10,10,10,0.9);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    
+    /* Mengatur lebar kotak agar terlihat proporsional di tengah */
+    max-width: 800px;
+    width: 90%;
+}
+
+
+.title-decoration {
+    display: none;
+}
+
+/* =========================================
+   GAYA BARU UNTUK LOGO GAMBAR
+   ========================================= */
+.logo-image {
+    max-height: 150px; /* Atur tinggi maksimal logo di sini */
+    width: auto; /* Lebar otomatis menyesuaikan proporsi */
+    margin-bottom: 15px; /* Jarak antara logo dan teks di bawahnya */
+    display: block;
+    
+    /* Menerapkan animasi: neon pulse khusus gambar & melayang */
+    animation: cleanImageNeonPulse 3s ease-in-out infinite alternate, floatingTitle 4s ease-in-out infinite;
+}
+
+/* Efek Neon Pulse untuk Gambar PNG Transparan */
+@keyframes cleanImageNeonPulse {
+    0% { 
+        filter: drop-shadow(0 0 2px rgba(255,255,255,0.2)) 
+                drop-shadow(0 0 5px rgba(255,255,255,0.1));
+        opacity: 0.8;
+    }
+    100% { 
+        filter: drop-shadow(0 0 8px rgba(255,255,255,0.6)) 
+                drop-shadow(0 0 15px rgba(255,255,255,0.4)) 
+                drop-shadow(0 0 25px rgba(255,255,255,0.2)); 
+        opacity: 1;
+    }
+}
+
+/* Animasi melayang (dipertahankan dari sebelumnya) */
+@keyframes floatingTitle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+/* ========================================= */
+
+.music-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: rgba(30,30,30,0.8);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #fff;
+    padding: 14px 22px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 1000;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+.music-btn:hover {
+    border-color: #ffffff;
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+    transform: translateY(-3px);
+}
+
+.music-btn.active {
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(255,255,255,0.6),
+                0 0 40px rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    animation: buttonPulse 1.5s infinite;
+}
+
+@keyframes buttonPulse {
+    0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    50% { box-shadow: 0 0 30px rgba(255,255,255,1); }
+    100% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    align-items: start;
+    padding: 40px 25px 80px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.card {
+    background: rgba(10,10,10,0.9);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.card.arrived {
+    opacity: 1;
+    transform: translateY(0);
+    animation: floatCard 4s ease-in-out infinite;
+}
+
+.card:nth-child(1) { transition-delay: 0.1s; }
+.card:nth-child(2) { transition-delay: 0.2s; }
+.card:nth-child(3) { transition-delay: 0.3s; }
+.card:nth-child(4) { transition-delay: 0.4s; }
+.card:nth-child(5) { transition-delay: 0.5s; }
+.card:nth-child(6) { transition-delay: 0.6s; }
+.card:nth-child(7) { transition-delay: 0.7s; }
+.card:nth-child(8) { transition-delay: 0.8s; }
+
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+    25% { transform: translateY(-8px) rotateX(2deg) rotateY(-1deg); }
+    50% { transform: translateY(0px) rotateX(0) rotateY(0); }
+    75% { transform: translateY(6px) rotateX(-2deg) rotateY(1deg); }
+}
+
+.card::after {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    border-radius: 40px;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, 
+        transparent 0%, 
+        transparent 15%,
+        rgba(255,255,255,0.7) 40%, 
+        #ffffff 50%, 
+        rgba(255,255,255,0.7) 60%, 
+        transparent 85%,
+        transparent 100%
+    );
+    background-size: 200% 200%;
+    background-position: -200% 0;
+    -webkit-mask: 
+        linear-gradient(#000 0 0) content-box, 
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    transition: background-position 0.5s ease, opacity 0.5s ease;
+    opacity: 0.6;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.05);
+    border-color: #ffffff;
+    box-shadow: 0 15px 40px rgba(255,255,255,0.3);
+    z-index: 10;
+}
+
+.card:hover::after { opacity: 1; }
+.card:hover::before { opacity: 1; background-position: 200% 0; }
+
+.stats-container {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    text-align: left;
+    transition: max-height 0.6s ease, opacity 0.6s ease, margin 0.6s ease, padding 0.6s ease;
+}
+
+.card:hover .stats-container {
+    max-height: 280px; 
+    opacity: 1;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.stat-row { margin-bottom: 10px; }
+
+.stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #cfcfcf;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.stat-label span:last-child {
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
+
+.stat-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #666, #fff);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0%; 
+    transition: width 1s cubic-bezier(0.19, 1, 0.22, 1);
+    transition-delay: 0.1s; 
+}
+
+.action-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.05), transparent);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #ddd;
+    padding: 10px 0;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.action-btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #fff;
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.4);
+    transform: translateY(-2px);
+}
+
+.action-btn:active {
+    transform: translateY(1px);
+}
+
+.about-btn { margin-top: 15px; }
+.car-btn { margin-top: 8px; }
+
+.avatar.glitch { animation: glitchSilver 0.5s linear; }
+
+@keyframes glitchSilver {
+    0% { transform: translate(0); filter: none; }
+    10% { transform: translate(-4px, 2px); filter: brightness(2.5) contrast(1.5); }
+    20% { transform: translate(4px, -2px); filter: brightness(2) contrast(2); }
+    30% { transform: translate(-3px, 1px); filter: grayscale(1) brightness(1.8); }
+    40% { transform: translate(3px, -1px); filter: brightness(2.2); }
+    50% { transform: translate(-2px, 0); filter: none; }
+    100% { transform: translate(0); filter: none; }
+}
+
+.stat-bar-fill.high-stat {
+    background: linear-gradient(90deg, #990000, #ff2a2a);
+    box-shadow: 0 0 15px rgba(255, 42, 42, 1);
+}
+.stat-label.high-stat-text span:last-child {
+    color: #ff5e5e;
+    text-shadow: 0 0 10px rgba(255, 94, 94, 0.8);
+}
+
+.card:hover.high-stat-hover::before {
+    background: linear-gradient(135deg,
+        rgba(255,255,255,0.2) 0%,
+        #ffffff 50%,
+        rgba(255,255,255,0.2) 100%
+    );
+    background-size: 200% 200%;
+}
+
+.avatar {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: filter 0.3s ease;
+}
+
+.rank {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.name {
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    inset: 0;
+    background-color: rgba(0,0,0,0.9);
+    backdrop-filter: blur(12px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: rgba(20,20,20,0.95);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 40px rgba(255,255,255,0.4);
+    width: 90%;
+    max-width: 550px;
+    border-radius: 25px;
+    padding: 30px;
+    position: relative;
+    opacity: 0;
+    transform: scale(0.7) rotateY(-20deg);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+}
+
+.car-modal-content {
+    max-width: 700px;
+    text-align: center;
+}
+
+.modal-content::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.02) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+.modal.active .modal-content {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 32px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 10;
+}
+
+.close-button:hover { color: #fff; text-shadow: 0 0 10px #fff; }
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+#modalImg {
+    width: 160px;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 2px solid #fff;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.bio-info { position: relative; z-index: 5; text-align: left; }
+.bio-info h2 { font-weight: 700; font-size: 24px; letter-spacing: 4px; color: #fff; margin-bottom: 5px; }
+.bio-info p { font-family: 'Inter', sans-serif; font-size: 14px; color: #aaaaaa; margin: 0 0 15px; }
+.bio-info hr { border: 0; border-top: 1px solid rgba(255,255,255,0.2); margin-bottom: 15px; }
+
+#modalDescription {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #d1d1d1;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+}
+
+.car-image-display {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    position: relative;
+    z-index: 2;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="title-wrapper">
+        <div class="title-decoration"></div>
+        
+        <img src="https://i.imgur.com/5NNyPSn.png?text=WILD+C4RD+LOGO" alt="Wild C4rd Logo" class="logo-image">
+        <p style="margin-top:0px; font-size:11px; letter-spacing:3px; color:#cccccc; text-transform: uppercase; font-family:'Orbitron', sans-serif;">
+            Hover to view stats. Click 'ABOUT' for bio or 'CAR' for vehicle.
+        </p>
+    </div>
+</header>
+
+<div class="container" id="cardContainer">
+    <div class="card" data-name="Ginz Kayoshi">
+        <img class="avatar" src="https://i.imgur.com/60y8MF1.png" data-alt="https://i.imgur.com/yBG38Av.png">
+        <div class="rank">Porsche 911</div>
+        <div class="name">Ginz Kayoshi</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">80%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">85%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">82%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button> </div>
+    </div>
+    
+    <div class="card" data-name="Cole Howard">
+        <img class="avatar" src="https://i.imgur.com/9Kx0O7R.png" data-alt="https://i.imgur.com/4lSOxUn.png">
+        <div class="rank">Ferrari 512 TR</div>
+        <div class="name">Cole Howard</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">78%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">79%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">77%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+    
+    <div class="card" data-name="Desmond Bob">
+        <img class="avatar" src="https://i.imgur.com/57yyWkf.png" data-alt="https://i.imgur.com/8p5tZy8.png">
+        <div class="rank">Alpine A110S</div>
+        <div class="name">Desmond Bob</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">80%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">82%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">85%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+    
+    <div class="card" data-name="Darren Quarresma">
+        <img class="avatar" src="https://i.imgur.com/khKpJnT.png" data-alt="https://i.imgur.com/f3DxNeH.png">
+        <div class="rank">BMW E36</div>
+        <div class="name">Darren Quarresma</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+    
+    <div class="card" data-name="Thomas Alvares">
+        <img class="avatar" src="https://i.imgur.com/R2fN3E0.png" data-alt="https://i.imgur.com/c7fT1yH.png">
+        <div class="rank">BMW e36</div>
+        <div class="name">Thomas Alvares</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">80%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">84%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">81%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+    
+    <div class="card" data-name="Tacito Jose">
+        <img class="avatar" src="https://i.imgur.com/TeC5szE.png" data-alt="https://i.imgur.com/YfGpVZV.png">
+        <div class="rank">Ferrari 512 TR</div>
+        <div class="name">Tacito Jose</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">79%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">80%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">78%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+
+    <div class="card" data-name="Watanabe Tira">
+        <img class="avatar" src="https://i.imgur.com/OdfGeEu.png" data-alt="https://i.imgur.com/YfGpVZV.png">
+        <div class="rank">De Tomaso Pantera</div>
+        <div class="name">Watanabe Tira</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">73%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">73%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">74%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+    
+    <div class="card" data-name="Joaquin Carllitos">
+        <img class="avatar" src="https://i.imgur.com/Z5KTZPl.png" data-alt="https://i.imgur.com/f3DxNeH.png">
+        <div class="rank">Ferrari 512 TR</div>
+        <div class="name">Joaquin Carllitos</div>
+        <div class="stats-container">
+            <div class="stat-row">
+                <div class="stat-label"><span>SPEED</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONTROL</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label"><span>CONSISTENT</span> <span class="stat-value">70%</span></div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill"></div></div>
+            </div>
+            <button class="action-btn about-btn">ABOUT</button>
+            <button class="action-btn car-btn">CAR</button>
+        </div>
+    </div>
+</div>
+
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">PLAY MUSIC</button>
+
+<audio id="bgMusic" loop>
+  <source src="https://github.com/vanechukayoshi/Audioweb/raw/refs/heads/main/SpotiDown.App%20-%20Tell%20Me%20Why%20-%20MEDUZA%20Remix%20-%20Supermode.mp3" type="audio/mp3">
+</audio>
+
+<div id="bioModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="modal-body">
+            <img id="modalImg" src="" alt="Avatar">
+            <div class="bio-info">
+                <h2 id="modalName">Name</h2>
+                <p id="modalRank">Car Model</p>
+                <hr>
+                <div id="modalDescription"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="carModal" class="modal">
+    <div class="modal-content car-modal-content">
+        <span class="close-button">&times;</span>
+        <h2 id="carModalTitle" style="margin: 0 0 10px 0; color: #fff; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; position: relative; z-index: 2;">Car Model</h2>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.2); position: relative; z-index: 2;">
+        <img id="carModalImg" class="car-image-display" src="" alt="Car Image">
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('arrived');
+        }, (index + 1) * 100); 
+    });
+    
+    document.querySelectorAll('.card').forEach(card => {
+        const statRows = card.querySelectorAll('.stat-row');
+        
+        statRows.forEach(row => {
+            const statValueText = row.querySelector('.stat-value').innerText;
+            const statValueNumber = parseInt(statValueText);
+            const fillBar = row.querySelector('.stat-bar-fill');
+            const labelSpan = row.querySelector('.stat-label');
+            
+            card.addEventListener('mouseover', () => {
+                fillBar.style.width = statValueNumber + '%';
+            });
+            
+            card.addEventListener('mouseout', () => {
+                fillBar.style.width = '0%'; 
+            });
+
+            if (statValueNumber >= 90) {
+                fillBar.classList.add('high-stat');
+                labelSpan.classList.add('high-stat-text');
+                card.classList.add('high-stat-hover'); 
+            }
+        });
+        
+        const avatar = card.querySelector('.avatar');
+        if(avatar){
+            let isGlitching = false;
+            
+            avatar.addEventListener('mouseover', () => {
+                if(!isGlitching) {
+                    isGlitching = true;
+                    avatar.classList.add('glitch');
+                    
+                    setTimeout(() => {
+                        avatar.classList.remove('glitch');
+                        isGlitching = false;
+                    }, 500);
+                }
+            });
+        }
+    });
+});
+</script>
+
+<script>
+let music = document.getElementById("bgMusic");
+let btn = document.getElementById("musicBtn");
+let isPlaying = false;
+
+function toggleMusic(){
+    if(!isPlaying){
+        music.play();
+        btn.classList.add("active");
+        btn.innerHTML = "PAUSE MUSIC";
+        isPlaying = true;
+    } else {
+        music.pause();
+        btn.classList.remove("active");
+        btn.innerHTML = "PLAY MUSIC";
+        isPlaying = false;
+    }
+}
+</script>
+
+<script>
+// DATA BIO KARAKTER
+const bioData = {
+    "Ginz Kayoshi": "Ginz Kayoshi, yang lebih dikenal sebagai EA, dulunya adalah pembalap tangguh di seri balap ketahanan paling bergengsi. Namun, masa kejayaannya kini hanya tinggal bayangan. Sekarang, Ginz telah memilih jalan yang lebih berbahaya, meninggalkan sirkuit resmi dan membangkitkan kembali adrenalinnya di dunia gelap balap jalanan.",
+    "Cole Howard": "Cole is a purist, obsessed with European performance, particularly the Ferrari 512TR. Finding an untouched unit was a dream come true, and he immediately set to work, dismantling and remanufacturing parts to build a faster, tougher monster of the streets.",
+    "Desmond Bob": "A specialist in short-distance sprints. His Alpine A110S is a study in precise engineering, with every modification focused on instant, overwhelming acceleration.",
+    "Takashi Hiroo": "Takashi's precision style demands a balanced car. His Cayman is not the fastest in a straight line, but in mountain passes and tight city corners, it is unbeatable. He races with cold calculation.",
+    "Thomas Alvares": "A master of drift and showmanship. Thomas drives with an unorthodox style that is erratic yet consistent. His e36 has been a staple in the scene for years, a car that seems to float through turns.",
+    "Tacito Jose": "Tacito is about presence and pure power. His Ferrari is tuned for brute force, an intimidating presence on the road that overpowers most other racers before the start line.",
+    "Watanabe Tira": "The enigmatic figure of the scene. Watanabe races the rare De Tomaso Pantera, a car requiring intense skill to control. Tira's background is shrouded in mystery, known only for relentless drive and a singular focus on winning at all costs.",
+};
+
+// DATA GAMBAR MOBIL
+const carData = {
+    "Ginz Kayoshi": "https://images.unsplash.com/photo-1503376712344-652d0f45a5aa?auto=format&fit=crop&w=800&q=80",
+    "Cole Howard": "https://images.unsplash.com/photo-1592198084033-aade902d1aae?auto=format&fit=crop&w=800&q=80",
+    "Desmond Bob": "https://images.unsplash.com/photo-1610884447640-c2ae6aa5fa2a?auto=format&fit=crop&w=800&q=80",
+    "Takashi Hiroo": "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=800&q=80",
+    "Thomas Alvares": "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80",
+    "Tacito Jose": "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&q=80",
+    "Watanabe Tira": "https://images.unsplash.com/photo-1614200179396-2bdb77ebf81b?auto=format&fit=crop&w=800&q=80"
+};
+
+// LOGIKA UNTUK TOMBOL ABOUT
+document.querySelectorAll('.about-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.card'); 
+        const name = card.getAttribute('data-name');
+        const rank = card.querySelector('.rank').innerText;
+        const imgSrc = card.querySelector('.avatar').src;
+
+        const modal = document.getElementById("bioModal");
+        document.getElementById("modalName").innerText = name;
+        document.getElementById("modalRank").innerText = rank;
+        document.getElementById("modalImg").src = imgSrc;
+        document.getElementById("modalDescription").innerText = bioData[name] || "Biodata not available for this member.";
+        
+        modal.style.display = "flex";
+        setTimeout(() => { modal.classList.add("active"); }, 10);
+    });
+});
+
+// LOGIKA UNTUK TOMBOL CAR
+document.querySelectorAll('.car-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.card'); 
+        const name = card.getAttribute('data-name');
+        const rank = card.querySelector('.rank').innerText; // Tipe Mobil
+
+        const modal = document.getElementById("carModal");
+        document.getElementById("carModalTitle").innerText = rank + " - " + name;
+        document.getElementById("carModalImg").src = carData[name] || "https://via.placeholder.com/800x500?text=Image+Not+Found";
+        
+        modal.style.display = "flex";
+        setTimeout(() => { modal.classList.add("active"); }, 10);
+    });
+});
+
+// FUNGSI MENUTUP SEMUA MODAL
+function closeModals() {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if(modal.classList.contains('active')) {
+            modal.classList.remove("active");
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 400); 
+        }
+    });
+}
+
+// Tutup dengan tombol silang (X)
+document.querySelectorAll('.close-button').forEach(btn => {
+    btn.addEventListener('click', closeModals);
+});
+
+// Tutup dengan klik di luar area modal
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        closeModals();
+    }
+}
+</script>
+
+</body>
+</html>
